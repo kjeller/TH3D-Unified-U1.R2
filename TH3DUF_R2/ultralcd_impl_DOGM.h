@@ -301,10 +301,17 @@ void lcd_printPGM_utf(const char *str, uint8_t n=LCD_WIDTH) {
       #endif
       u8g.firstPage();
       do {
-        u8g.drawBitmapP(
-          left, top,
-          CEILING(CUSTOM_BOOTSCREEN_BMPWIDTH, 8), CUSTOM_BOOTSCREEN_BMPHEIGHT, custom_start_bmp
-        );
+        #if ENABLED(BOOTSCREEN_XBM)
+          u8g.drawXBMP(
+            left, top, 
+            CUSTOM_BOOTSCREEN_BMPWIDTH, CUSTOM_BOOTSCREEN_BMPHEIGHT, custom_start_bmp
+          );
+        #else
+          u8g.drawBitmapP(
+            left, top,
+            CEILING(CUSTOM_BOOTSCREEN_BMPWIDTH, 8), CUSTOM_BOOTSCREEN_BMPHEIGHT, custom_start_bmp
+          );
+        #endif
         #if ENABLED(CUSTOM_BOOTSCREEN_INVERTED)
           u8g.setColorIndex(1);
           if (top) u8g.drawBox(0, 0, LCD_PIXEL_WIDTH, top);
